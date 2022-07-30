@@ -14,16 +14,16 @@ mtfind::~mtfind()
 	futures.clear();
 }
 
-static std::mutex s_mutex;
 
-static void getLine(std::ifstream& file, mtfind* mtf)
+
+void mtfind::getLine(std::ifstream& file)
 {
 	std::lock_guard<std::mutex> lock(s_mutex);
 	std::string line;
 	std::getline(file, line);
-	for (auto it = line.find(mtf->pattern); it != std::string::npos; it = line.find(mtf->pattern, ++it))
+	for (auto it = line.find(pattern); it != std::string::npos; it = line.find(pattern, ++it))
 	{
-		size_t i = it, j = it + mtf->pattern.size() - 1;
+		size_t i = it, j = it + pattern.size() - 1;
 
 		while (line[i] != ' ' && i != 0)
 		{
@@ -33,9 +33,9 @@ static void getLine(std::ifstream& file, mtfind* mtf)
 		{
 			j++;
 		}
-		mtf->finded.push_back({ mtf->row, (i > 0 ? i + 2 : i), line.substr((line[i] == ' ' ? i + 1 : i), j - i) });
+		finded.push_back({ row, (i > 0 ? i + 2 : i), line.substr((line[i] == ' ' ? i + 1 : i), j - i) });
 	}
-	mtf->row++;
+	row++;
 }
 
 void mtfind::find()
@@ -50,7 +50,7 @@ void mtfind::find()
 
 	while (file.good())
 	{
-		futures.push_back(std::async(std::launch::async, getLine, ref(file), this));
+		futures.push_back(std::async(std::launch::async, &mtfind::getLine, this, ref(file)));
 	}
 
 	file.close();
