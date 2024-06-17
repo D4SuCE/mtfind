@@ -1,6 +1,0 @@
-﻿  main.cpp
-  mtfind.cpp
-D:\Work\GitHub\Cpp\mtfind\mtfind\src\mtfind.cpp(35,6): warning C4552: '+': result of expression not used
-D:\Work\GitHub\Cpp\mtfind\mtfind\src\mtfind.cpp(39,6): warning C4552: '+': result of expression not used
-  Generating Code...
-  mtfind.vcxproj -> D:\Work\GitHub\Cpp\mtfind\Debug\mtfind.exe
